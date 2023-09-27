@@ -1,30 +1,23 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
 
 export default GetHours = () => {
   const [currentDate, setCurrentDate] = useState("");
 
-  function getDay(d){
-    if (d === 0) {
-      return "Sunday";
-    } else if (d === 1) {
-      return "Monday";
-    } else if (d === 2) {
-      return "Tuesday";
-    } else if (d === 3) {
-      return "Wednesday";
-    } else if (d === 4) {
-      return "Thursday";
-    } else if (d === 5) {
-      return "Friday";
-    } else if (d === 6) {
-      return "Saturday";
+  function getDay(d) {
+    const daysOfWeek = [
+      "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ];
+  
+    if (d >= 0 && d < daysOfWeek.length) {
+      return daysOfWeek[d];
     } else {
-      return "Invalid day"; 
+      return "Invalid day";
     }
   }
-
+  
   useEffect(() => {
     var date = new Date();
     var hours = date.getHours() - 3; 
@@ -39,8 +32,14 @@ export default GetHours = () => {
 
   return (
       <View>
-        <Text>{currentDate}</Text>
+        <Text style={styles.hour}>{currentDate}</Text>
       </View>
   );
 };
+
+export const styles = StyleSheet.create({
+  hour: {
+    fontSize: 15,
+  },
+})
 

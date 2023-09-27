@@ -1,3 +1,4 @@
+//components from react
 import {
   View,
   Text,
@@ -5,20 +6,24 @@ import {
   StatusBar,
   Pressable,
   TouchableOpacity,
+  Button,
 } from "react-native";
+//import hooks
 import { useState, useEffect } from "react";
+//import style
 import { styles } from "./Style";
+//import fonts
 import {
   useFonts,
   RobotoCondensed_400Regular,
 } from "@expo-google-fonts/roboto-condensed";
+//more imports
 import { FontAwesome } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
-import GetHours from "../../utils/GetHours";
-import Clocks from "../../utils/Clocks";
+import { useNavigation } from "@react-navigation/native";
+//import services
 import api from "../../services/Api/Api.js";
 
 export default function SearchCityScreen() {
@@ -26,12 +31,13 @@ export default function SearchCityScreen() {
 
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedUF, setSelectedUF] = useState(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [cities, setCities] = useState([]);
+  const [states, setStates] = useState([]);
 
   function navegaSobre() {
     navigation.navigate("Home", { city: selectedCity, state: selectedUF });
   }
-
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
     if (selectedCity && selectedUF) {
@@ -59,8 +65,6 @@ export default function SearchCityScreen() {
       return [];
     }
   };
-  const [cities, setCities] = useState([]);
-  const [states, setStates] = useState([]);
 
   useEffect(() => {
     fetchCitiesFromAPI().then((data) => {
@@ -101,7 +105,6 @@ export default function SearchCityScreen() {
         <Text style={styles.h1}>
           Weather Up <FontAwesome name="thermometer-3" size={25} />
         </Text>
-        <GetHours />
         <Image
           source={require("../../../assets/images/searchCityScreen/Weather.png")}
           style={{ width: 200, height: 130 }}
@@ -117,7 +120,7 @@ export default function SearchCityScreen() {
           <Text style={styles.label}>Selecione sua cidade e estado</Text>
           <View style={styles.dropdownContainer}>
             <Dropdown
-              style={[styles.dropdownUF, isFocus && { borderColor: "blue" }]}
+              style={[styles.dropdownUF, isFocus && { borderColor: "grey" }]}
               data={states}
               search
               maxHeight={300}
@@ -134,7 +137,7 @@ export default function SearchCityScreen() {
               }}
             />
             <Dropdown
-              style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+              style={[styles.dropdown, isFocus && { borderColor: "grey" }]}
               data={cities}
               search
               maxHeight={300}
