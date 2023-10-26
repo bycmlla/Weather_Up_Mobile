@@ -6,8 +6,9 @@ import {
   StatusBar,
   Pressable,
   TouchableOpacity,
-  Button,
 } from "react-native";
+import * as Location from "expo-location";
+
 //import hooks
 import { useState, useEffect } from "react";
 //import style
@@ -34,10 +35,26 @@ export default function SearchCityScreen() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
+  const [location, setLocation] = useState(null);
 
   function navegaSobre() {
     navigation.navigate("Home", { city: selectedCity, state: selectedUF });
   }
+
+  useEffect(() => {
+    const getPermissions = async () => {
+      let {status} = await Location.getForegroundPermissionsAsync()
+      if(status !== 'granted') {
+        console.log("please grant locationnnnnn ainn")
+        return;
+      }
+      
+      let currentLocation = await Location.getCurrentPositionAsync({})
+      setLocation(currentLocation)
+      console.log(currentLocation)
+    }
+    getPermissions()
+  }, [])
 
   useEffect(() => {
     if (selectedCity && selectedUF) {
